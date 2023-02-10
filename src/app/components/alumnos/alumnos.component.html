@@ -3,7 +3,7 @@
     <div class="card-body">
         <button class="btn btn-primary my-2" routerLink="/alumnos/form">Crear</button>
         <div class="table-responsive">
-        <table class="table table-hover table-striped">
+        <table class="table table-hover table-striped" *ngIf="alumnos?.length || 0 > 0 else elseBlockM">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -31,5 +31,10 @@
             </tbody>
         </table>
     </div>
+    <ng-template #elseBlockM>
+        <div class="alert alert-info">
+            No hay alumnos en el sistema
+        </div>
+      </ng-template>
     </div>
   </div>
