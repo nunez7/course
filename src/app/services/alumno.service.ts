@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { Alumno } from '../models/alumno';
 import { CommonService } from './common.service';
+import { BASE_ENDPOINT } from '../config/app';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class AlumnoService extends CommonService<Alumno>{
     super(http);
   }
   
-  protected override baseEndpoint  = 'http://localhost:8090/api/alumnos';
+  protected override baseEndpoint  = BASE_ENDPOINT+'/alumnos';
 
   public crearConFoto(alumno: Alumno, archivo:File):Observable<Alumno>{
     const formData = new FormData();
