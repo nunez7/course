@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Alumno } from 'src/app/models/alumno';
 import { AlumnoService } from 'src/app/services/alumno.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-alumnos-form',
@@ -36,7 +37,7 @@ export class AlumnosFormComponent implements OnInit {
       },
       complete: () => {
         console.log('Creado');
-        alert(`Alumno ${this.alumno.nombre} creado con éxito`);
+        Swal.fire('Nuevo: ', `Alumno ${this.alumno.nombre} creado con éxito`, 'success');
         this.router.navigate(['/alumnos']);
       },
       error: (e) => {
@@ -54,7 +55,7 @@ export class AlumnosFormComponent implements OnInit {
         this.alumno = params;
       },
       complete: () => {
-        alert(`Alumno ${this.alumno.nombre} actualizado con éxito`);
+        Swal.fire('Modificado: ', `Alumno ${this.alumno.nombre} actualizado con éxito`, 'success');
         this.router.navigate(['/alumnos']);
       },
       error: (e) => {
