@@ -3,7 +3,7 @@
     <div class="card-body">
         <button class="btn btn-primary my-2" routerLink="/alumnos/form">Crear</button>
         <div class="table-responsive">
-        <table class="table table-hover table-striped" *ngIf="alumnos?.length || 0 > 0 else elseBlockM">
+        <table class="table table-hover table-striped" *ngIf="lista?.length || 0 > 0 else elseBlockM">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -15,7 +15,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let alumno of alumnos">
+                <tr *ngFor="let alumno of lista">
                     <td>{{alumno.id}}</td>
                     <td>{{alumno.nombre}}</td>
                     <td>{{alumno.apellido}}</td>
