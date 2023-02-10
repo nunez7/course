@@ -2,6 +2,7 @@
     <div class="card-header">{{titulo}}</div>
     <div class="card-body">
         <button class="btn btn-primary my-2" routerLink="/alumnos/form">Crear</button>
+        <div class="table-responsive">
         <table class="table table-hover table-striped">
             <thead>
                 <tr>
@@ -10,6 +11,7 @@
                     <th>Apellido</th>
                     <th>Email</th>
                     <th>Creado</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -19,8 +21,12 @@
                     <td>{{alumno.apellido}}</td>
                     <td>{{alumno.email}}</td>
                     <td>{{alumno.createAt | date: 'dd/MM/yyyy'}}</td>
+                    <td>
+                        <button class="btn btn-warning btn-sm" [routerLink]="['/alumnos/form', alumno.id]">Editar</button>
+                    </td>
                 </tr>
             </tbody>
         </table>
+    </div>
     </div>
   </div>
