@@ -22,7 +22,10 @@
                     <td>{{alumno.email}}</td>
                     <td>{{alumno.createAt | date: 'dd/MM/yyyy'}}</td>
                     <td>
-                        <button class="btn btn-warning btn-sm" [routerLink]="['/alumnos/form', alumno.id]">Editar</button>
+                        <div class="btn-group">
+                            <button class="btn btn-warning btn-sm" [routerLink]="['/alumnos/form', alumno.id]">Editar</button>
+                            <button class="btn btn-danger btn-sm" (click)="eliminar(alumno)">Eliminar</button>
+                        </div>
                     </td>
                 </tr>
             </tbody>
