@@ -12,6 +12,8 @@ import { CommonFormComponent } from '../commont-form.component';
 export class AlumnosFormComponent 
 extends CommonFormComponent<Alumno, AlumnoService> implements OnInit {
 
+  private fotoSeleccionada: File;
+
   constructor(service: AlumnoService,
     router: Router,
     route: ActivatedRoute) { 
@@ -22,4 +24,8 @@ extends CommonFormComponent<Alumno, AlumnoService> implements OnInit {
         this.nombreModel = Alumno.name;
     }
 
+    seleccionarFoto(event: any):void{
+      this.fotoSeleccionada = event.target.files[0];
+      console.info(this.fotoSeleccionada);
+    }
 }
