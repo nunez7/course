@@ -6,28 +6,28 @@
         <form action="" method="post">
             <div class="form-group">
                 <label for="nombre">Nombre</label>
-                <input type="text" name="nombre" class="form-control" [(ngModel)]="alumno.nombre">
+                <input type="text" name="nombre" class="form-control" [(ngModel)]="model.nombre">
                 <div class="alert alert-danger" *ngIf="error?.nombre">
                     {{error.nombre}}
                 </div>
             </div>
             <div class="form-group">
                 <label for="nombre">Apellido</label>
-                <input type="text" name="apellido" class="form-control" [(ngModel)]="alumno.apellido">
+                <input type="text" name="apellido" class="form-control" [(ngModel)]="model.apellido">
                 <div class="alert alert-danger" *ngIf="error?.apellido">
                     {{error.apellido}}
                 </div>
             </div>
             <div class="form-group">
                 <label for="nombre">Email</label>
-                <input type="text" name="email" class="form-control" [(ngModel)]="alumno.email">
+                <input type="text" name="email" class="form-control" [(ngModel)]="model.email">
                 <div class="alert alert-danger" *ngIf="error?.email">
                     {{error.email}}
                 </div>
             </div>
             <div class="form-group mt-2 d-flex justify-content-end">
                 <button type="button" class="btn btn-primary" 
-                (click)="alumno.id? editar(): crear()" >{{alumno.id? 'Editar': 'Crear'}}</button>
+                (click)="model.id? editar(): crear()" >{{model.id? 'Editar': 'Crear'}}</button>
             </div>
         </form>
 </div>
