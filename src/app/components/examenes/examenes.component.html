@@ -1,1 +1,47 @@
-<p>examenes works!</p>
+<div class="card text-bg-light mb-3">
+    <div class="card-header">{{titulo}}</div>
+    <div class="card-body">
+        <button class="btn btn-primary my-2" routerLink="/examenes/form">Crear</button>
+        <div class="table-responsive">
+        <table class="table table-hover table-striped" *ngIf="lista?.length || 0 > 0 else elseBlockE">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Creado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let examen of lista">
+                    <td>{{examen.id}}</td>
+                    <td>{{examen.nombre}}</td>
+                    <td>{{examen.createAt | date: 'dd/MM/yyyy'}}</td>
+                    <td>
+                        <div class="btn-group">
+                            <button class="btn btn-warning btn-sm" [routerLink]="['/examenes/form', examen.id]">Editar</button>
+                            <button class="btn btn-danger btn-sm" (click)="eliminar(examen)">Eliminar</button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <mat-paginator [length]="totalRegistros"
+              [pageSize]="totalPorPagina"
+              [pageIndex]="paginaActual"
+              [pageSizeOptions]="pageSizeOptions"
+              aria-label="Select page" 
+              (page)="paginar($event)"
+              showFirstLastButtons
+              class="float-left mx-2"
+              >
+        </mat-paginator>
+    </div>
+    <ng-template #elseBlockE>
+        <div class="alert alert-info">
+            No hay examenes en el sistema
+        </div>
+      </ng-template>
+    </div>
+  </div>
+

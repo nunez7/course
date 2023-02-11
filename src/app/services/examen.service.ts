@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { BASE_ENDPOINT } from '../config/app';
 import { Examen } from '../models/examen';
 import { CommonService } from './common.service';
 
@@ -8,9 +9,10 @@ import { CommonService } from './common.service';
 })
 export class ExamenService extends CommonService<Examen>{
 
+  protected override baseEndpoint  = BASE_ENDPOINT+'/examenes';
+
   constructor(http: HttpClient) {
     super(http);
   }
 
-  protected override baseEndpoint  = 'http://localhost:8090/api/examenes';
 }
