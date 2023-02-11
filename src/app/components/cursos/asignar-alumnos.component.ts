@@ -15,9 +15,10 @@ import Swal from 'sweetalert2';
 export class AsignarAlumnosComponent implements OnInit{
 
   curso: Curso;
-
+  alumnos: Alumno[] = [];
   alumnosAsignar: Alumno[] = [];
   mostrarColumnas: string[] = ['nombre', 'apellido', 'seleccion'];
+  columnasAlumnos: string[] = ['id', 'nombre', 'apellido', 'email'];
 
   seleccion: SelectionModel<Alumno> = new SelectionModel<Alumno>(true, []);
 
@@ -28,7 +29,10 @@ export class AsignarAlumnosComponent implements OnInit{
    ngOnInit(): void {
        this.route.paramMap.subscribe(params => {
         const id: number = + params.get('id');
-        this.cursoService.ver(id).subscribe(c => this.curso= c);
+        this.cursoService.ver(id).subscribe(c => {
+          this.curso= c;
+          this.alumnos = this.curso.alumnos;
+        });
        });
    }
 
@@ -40,7 +44,7 @@ export class AsignarAlumnosComponent implements OnInit{
         this.alumnosAsignar = alumnos.filter(a => {
           let filtrar = true;
           //Con este filtro evitamos agregar los alumnos que ya estan en algun curso
-          this.curso.alumnos.forEach(ca => {
+          this.alumnos.forEach(ca => {
             if(a.id === ca.id){
               filtrar = false;
             }
@@ -70,6 +74,7 @@ export class AsignarAlumnosComponent implements OnInit{
       complete: () => {
         Swal.fire('Asignados: ', 
         'Alumnos asignados con éxito al curso', 'success');
+        this.alumnos = this.alumnos.concat(this.seleccion.selected);
         this.alumnosAsignar = [];
         this.seleccion.clear();
       },
