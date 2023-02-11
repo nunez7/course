@@ -4,6 +4,7 @@ import { Asignatura } from 'src/app/models/asignatura';
 import { Examen } from 'src/app/models/examen';
 import { Pregunta } from 'src/app/models/pregunta';
 import { ExamenService } from 'src/app/services/examen.service';
+import Swal from 'sweetalert2';
 import { CommonFormComponent } from '../commont-form.component';
 
 @Component({
@@ -73,15 +74,22 @@ export class ExamenFormComponent  extends CommonFormComponent<Examen, ExamenServ
 
     eliminarPreguntasVacias(): void{
       this.model.preguntas = this.model.preguntas.filter(p => p.texto !=null && p.texto.length > 0);
-
     }
 
     public override crear(): void{
+      if(this.model.preguntas.length === 0){
+        Swal.fire('Error preguntas', 'El examen debe tener preguntas', 'error');
+        return;
+      }
       this.eliminarPreguntasVacias();
       super.crear();
     }
 
     public override editar(): void {
+      if(this.model.preguntas.length === 0){
+        Swal.fire('Error preguntas', 'El examen debe tener preguntas', 'error');
+        return;
+      }
       this.eliminarPreguntasVacias();
       super.editar();
     }
