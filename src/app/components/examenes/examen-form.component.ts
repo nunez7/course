@@ -32,9 +32,10 @@ export class ExamenFormComponent  extends CommonFormComponent<Examen, ExamenServ
           this.service.ver(id).subscribe(m => {
             this.model = m;
             //Llenando asignatura hija
-            this.service.findAllAsignatura().subscribe(asignaturas => 
+            /*this.service.findAllAsignatura().subscribe(asignaturas => 
               this.asignaturasHija = asignaturas
-              .filter(a => a.padre && a.padre.id === this.model.asignaturaPadre.id));
+              .filter(a => a.padre && a.padre.id === this.model.asignaturaPadre.id));*/
+            this.cargarHijos();  
           });
         }
     });

@@ -8,6 +8,7 @@
                 <tr>
                     <th>ID</th>
                     <th>Nombre</th>
+                    <th>Asignaturas</th>
                     <th>Creado</th>
                     <th>Acciones</th>
                 </tr>
@@ -16,6 +17,7 @@
                 <tr *ngFor="let examen of lista">
                     <td>{{examen.id}}</td>
                     <td>{{examen.nombre}}</td>
+                    <td>{{examen.asignaturaPadre?.nombre }} -> {{examen.asignaturaHija?.nombre}}</td>
                     <td>{{examen.createAt | date: 'dd/MM/yyyy'}}</td>
                     <td>
                         <div class="btn-group">
