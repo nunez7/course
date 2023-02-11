@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Asignatura } from 'src/app/models/asignatura';
 import { Examen } from 'src/app/models/examen';
 import { ExamenService } from 'src/app/services/examen.service';
 import { CommonFormComponent } from '../commont-form.component';
@@ -11,6 +12,9 @@ import { CommonFormComponent } from '../commont-form.component';
 })
 export class ExamenFormComponent  extends CommonFormComponent<Examen, ExamenService> {
 
+  asignaturasPadre: Asignatura[] = [];
+  asignaturasHija: Asignatura[] = [];
+
   constructor(service: ExamenService,
     router: Router,
     route: ActivatedRoute) { 
@@ -21,4 +25,15 @@ export class ExamenFormComponent  extends CommonFormComponent<Examen, ExamenServ
         this.nombreModel = Examen.name;
     }
 
+    override ngOnInit(): void {
+      this.route.paramMap.subscribe(params => {
+        const id: number = +params.get('id');
+        if (id) {
+          this.service.ver(id).subscribe(m => this.model = m)
+        }
+    });
+
+    this.service.findAllAsignatura()
+      .subscribe(asignaturas => this.asignaturasPadre = asignaturas.filter(a => !a.padre));
+    }
 }
