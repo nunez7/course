@@ -35,8 +35,18 @@ export class AsignarAlumnosComponent implements OnInit{
    filtrar(nombre: string): void{
     nombre = nombre !== undefined? nombre.trim(): '';
     if(nombre!== ''){
-      this.alumnoService.filtrarPorNombre(nombre).subscribe(alumnos => 
-        this.alumnosAsignar = alumnos);
+      this.alumnoService.filtrarPorNombre(nombre)
+      .subscribe(alumnos => 
+        this.alumnosAsignar = alumnos.filter(a => {
+          let filtrar = true;
+          //Con este filtro evitamos agregar los alumnos que ya estan en algun curso
+          this.curso.alumnos.forEach(ca => {
+            if(a.id === ca.id){
+              filtrar = false;
+            }
+          });
+          return filtrar;
+        }));
     }
    }
 
