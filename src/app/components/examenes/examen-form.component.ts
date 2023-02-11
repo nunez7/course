@@ -36,4 +36,8 @@ export class ExamenFormComponent  extends CommonFormComponent<Examen, ExamenServ
     this.service.findAllAsignatura()
       .subscribe(asignaturas => this.asignaturasPadre = asignaturas.filter(a => !a.padre));
     }
+
+    cargarHijos(): void{
+      this.asignaturasHija = this.model.asignaturaPadre? this.model.asignaturaPadre.hijos: [];
+    }
 }

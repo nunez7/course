@@ -12,11 +12,15 @@
             </div>
             <div class="form-group">
                 <label for="asignaturaPadre">Asignatura</label>
-                <select [(ngModel)]="model.asignaturaPadre" name="asignaturaPadre" id="asignaturaPadre" class="form-control">
+                <select (change)="cargarHijos()"
+                [(ngModel)]="model.asignaturaPadre" name="asignaturaPadre" id="asignaturaPadre" class="form-control">
                     <option [ngValue]="undefined">--- Selecciona una asignatura</option>
                     <option  *ngFor="let asignatura of asignaturasPadre" 
                     [ngValue]="asignatura">{{asignatura.nombre}}</option>
                 </select>
+                <div class="alert alert-danger" *ngIf="error?.asignaturaPadre">
+                    {{error.asignaturaPadre}}
+                </div>
             </div>
             <div class="form-group">
                 <label for="asignaturaHija">Asignatura hija</label>
@@ -25,6 +29,9 @@
                     <option  *ngFor="let asignatura of asignaturasHija" 
                     [ngValue]="asignatura">{{asignatura.nombre}}</option>
                 </select>
+                <div class="alert alert-danger" *ngIf="error?.asignaturaHija">
+                    {{error.asignaturaHija}}
+                </div>
             </div>
             <div class="form-group mt-2 d-flex justify-content-end">
                 <button type="button" class="btn btn-primary" 
