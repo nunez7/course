@@ -1,7 +1,7 @@
 <div class="card text-bg-light mb-3">
     <div class="card-header">{{titulo}}</div>
     <div class="card-body">
-        <button class="btn btn-primary my-2" routerLink="/alumnos/form">Crear</button>
+        <button class="btn btn-primary my-2" routerLink="/cursos/form">Crear</button>
         <div class="table-responsive">
         <table class="table table-hover table-striped" *ngIf="lista?.length || 0 > 0 else elseBlockC">
             <thead>
@@ -19,7 +19,7 @@
                     <td>{{curso.createAt | date: 'dd/MM/yyyy'}}</td>
                     <td>
                         <div class="btn-group">
-                            <button class="btn btn-warning btn-sm" [routerLink]="['/alumnos/form', curso.id]">Editar</button>
+                            <button class="btn btn-warning btn-sm" [routerLink]="['/cursos/form', curso.id]">Editar</button>
                             <button class="btn btn-danger btn-sm" (click)="eliminar(curso)">Eliminar</button>
                         </div>
                     </td>
