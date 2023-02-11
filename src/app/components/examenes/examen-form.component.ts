@@ -29,7 +29,13 @@ export class ExamenFormComponent  extends CommonFormComponent<Examen, ExamenServ
       this.route.paramMap.subscribe(params => {
         const id: number = +params.get('id');
         if (id) {
-          this.service.ver(id).subscribe(m => this.model = m)
+          this.service.ver(id).subscribe(m => {
+            this.model = m;
+            //Llenando asignatura hija
+            this.service.findAllAsignatura().subscribe(asignaturas => 
+              this.asignaturasHija = asignaturas
+              .filter(a => a.padre && a.padre.id === this.model.asignaturaPadre.id));
+          });
         }
     });
 
@@ -39,5 +45,14 @@ export class ExamenFormComponent  extends CommonFormComponent<Examen, ExamenServ
 
     cargarHijos(): void{
       this.asignaturasHija = this.model.asignaturaPadre? this.model.asignaturaPadre.hijos: [];
+    }
+
+    compararAsignatura(a1: Asignatura, a2: Asignatura): boolean{
+      if(a1===undefined && a2===undefined){
+        return true;
+      }
+
+      return (a1=== null || a2===null || a1===undefined || a2===undefined)
+      ? false: a1.id === a2.id;
     }
 }
