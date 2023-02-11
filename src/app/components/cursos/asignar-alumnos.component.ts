@@ -15,7 +15,7 @@ export class AsignarAlumnosComponent implements OnInit{
   curso: Curso;
 
   alumnosAsignar: Alumno[];
-  mostrarColumnas: string[] = ['Nombre', 'Apellido'];
+  mostrarColumnas: string[] = ['nombre', 'apellido'];
 
   constructor(private route: ActivatedRoute,
    private cursoService: CursoService,
@@ -26,5 +26,13 @@ export class AsignarAlumnosComponent implements OnInit{
         const id: number = + params.get('id');
         this.cursoService.ver(id).subscribe(c => this.curso= c);
        });
+   }
+
+   filtrar(nombre: string): void{
+    nombre = nombre !== undefined? nombre.trim(): '';
+    if(nombre!== ''){
+      this.alumnoService.filtrarPorNombre(nombre).subscribe(alumnos => 
+        this.alumnosAsignar = alumnos);
+    }
    }
 }

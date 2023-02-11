@@ -1,3 +1,9 @@
+<div class="container">
+        <mat-form-field class="mx-3 col-12">
+            <input matInput placeholder="Buscar alumnos" (keyup)="filtrar($event.target.value)">
+        </mat-form-field>
+</div>
+
 <table mat-table [dataSource]="alumnosAsignar" class="mat-elevation-z8">
 
     <ng-container matColumnDef="nombre">
