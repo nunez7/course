@@ -1,3 +1,4 @@
+import { SelectionModel } from '@angular/cdk/collections';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Alumno } from 'src/app/models/alumno';
@@ -15,7 +16,9 @@ export class AsignarAlumnosComponent implements OnInit{
   curso: Curso;
 
   alumnosAsignar: Alumno[];
-  mostrarColumnas: string[] = ['nombre', 'apellido'];
+  mostrarColumnas: string[] = ['nombre', 'apellido', 'seleccion'];
+
+  seleccion: SelectionModel<Alumno> = new SelectionModel<Alumno>(true, []);
 
   constructor(private route: ActivatedRoute,
    private cursoService: CursoService,
