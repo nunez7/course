@@ -3,14 +3,14 @@
     <mat-card-title>Alumnos del curso {{curso.nombre}}</mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <mat-tab-group>
+    <mat-tab-group dynamicHeight [(selectedIndex)]="tabIndex">
       <mat-tab label="Asignar alumnos">
         <div class="container-fluid mt-4">
           <mat-form-field class=" col-12">
             <input matInput placeholder="Buscar alumnos" (keyup)="filtrar($event.target.value)">
           </mat-form-field>
         </div>
-        <table mat-table [dataSource]="alumnosAsignar" class="mat-elevation-z8">
+        <table mat-table [dataSource]="alumnosAsignar" class="mat-elevation-z8 mx-3">
           <ng-container matColumnDef="seleccion">
             <th mat-header-cell *matHeaderCellDef>
               <mat-checkbox (change)="$event? seleccionarTodos(): null"
@@ -43,7 +43,7 @@
         </div>
       </mat-tab>
       <mat-tab label="Alumnos del curso">
-        <table mat-table [dataSource]="alumnos" class="mat-elevation-z8">
+        <table mat-table [dataSource]="alumnos" class="mat-elevation-z8 mx-3">
           <ng-container matColumnDef="id">
             <th mat-header-cell *matHeaderCellDef> ID </th>
             <td mat-cell *matCellDef="let alumno"> {{alumno.id}} </td>

@@ -17,6 +17,7 @@ export class AsignarAlumnosComponent implements OnInit{
   curso: Curso;
   alumnos: Alumno[] = [];
   alumnosAsignar: Alumno[] = [];
+  tabIndex = 0;
   mostrarColumnas: string[] = ['nombre', 'apellido', 'seleccion'];
   columnasAlumnos: string[] = ['id', 'nombre', 'apellido', 'email'];
 
@@ -72,6 +73,7 @@ export class AsignarAlumnosComponent implements OnInit{
       next: () => {
       },
       complete: () => {
+        this.tabIndex = 2;
         Swal.fire('Asignados: ', 
         'Alumnos asignados con éxito al curso', 'success');
         this.alumnos = this.alumnos.concat(this.seleccion.selected);
