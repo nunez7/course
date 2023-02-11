@@ -1,0 +1,62 @@
+<div class="card text-bg-light mb-3">
+    <div class="card-header">{{titulo}}</div>
+    <div class="card-body">
+        <button class="btn btn-secondary my-2" routerLink="/examenes">Volver</button>
+        <form action="" method="post">
+            <div class="form-group">
+                <label for="nombre">Nombre</label>
+                <input type="text" name="nombre" class="form-control" [(ngModel)]="model.nombre">
+                <div class="alert alert-danger" *ngIf="error?.nombre">
+                    {{error.nombre}}
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="asignaturaPadre">Asignatura</label>
+                <select (change)="cargarHijos()"
+                [compareWith]="compararAsignatura"
+                [(ngModel)]="model.asignaturaPadre" name="asignaturaPadre" id="asignaturaPadre" class="form-control">
+                    <option [ngValue]="undefined">--- Selecciona una asignatura</option>
+                    <option  *ngFor="let asignatura of asignaturasPadre" 
+                    [ngValue]="asignatura">{{asignatura.nombre}}</option>
+                </select>
+                <div class="alert alert-danger" *ngIf="error?.asignaturaPadre">
+                    {{error.asignaturaPadre}}
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="asignaturaHija">Asignatura hija</label>
+                <select [compareWith]="compararAsignatura" 
+                    [(ngModel)]="model.asignaturaHija" name="asignaturaHija" id="asignaturaHija" class="form-control">
+                    <option [ngValue]="undefined">--- Selecciona una asignatura</option>
+                    <option  *ngFor="let asignatura of asignaturasHija" 
+                    [ngValue]="asignatura">{{asignatura.nombre}}</option>
+                </select>
+                <div class="alert alert-danger" *ngIf="error?.asignaturaHija">
+                    {{error.asignaturaHija}}
+                </div>
+            </div>
+            <button (click)="agregarPregunta()" class="btn btn-light btn-lg my-3">Agregar pregunta</button>
+
+            <div class="form-group" *ngFor="let pregunta of model.preguntas; let i = index">
+                <div class="row mt-2">
+                    <div class="col-sm-2">
+                        <label for="">Pregunta {{i+1}}</label>
+                    </div>
+                    <div class="col-sm-6">
+                        <input type="text" name="" class="form-control" value="{{pregunta.texto}}"
+                    (change)="asignarTexto(pregunta, $event)">
+                    </div>
+                    <div class="col-sm-1">
+                        <button class="btn btn-danger btn-sm"
+                        (click)="eliminarPregunta(pregunta)">X</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group mt-2 d-flex justify-content-end">
+                <button type="button" class="btn btn-primary" 
+                (click)="model.id? editar(): crear()" >{{model.id? 'Editar': 'Crear'}}</button>
+            </div>
+        </form>
+</div>
+</div>
