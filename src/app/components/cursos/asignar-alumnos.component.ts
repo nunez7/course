@@ -64,11 +64,27 @@ export class AsignarAlumnosComponent implements OnInit{
 
    asignar(): void{
     this.cursoService.asignarAlumnos(this.curso, this.seleccion.selected)
-    .subscribe(c => {
-      Swal.fire('Asignados: ', 
-      'Alumnos asignados con éxito al curso', 'success');
-      this.alumnosAsignar = [];
-      this.seleccion.clear();
+    .subscribe({
+      next: () => {
+      },
+      complete: () => {
+        Swal.fire('Asignados: ', 
+        'Alumnos asignados con éxito al curso', 'success');
+        this.alumnosAsignar = [];
+        this.seleccion.clear();
+      },
+      error: (e) => {
+        if (e.status === 500) {
+          const mensaje = e.error.message as string;
+          if(mensaje.indexOf('ConstraintViolationException') > -1){
+            Swal.fire('Error: ', 
+            'El alumno ya está inscrito a algún otro curso, no se pudo asignar', 'error');
+          }else{
+            Swal.fire('Error: ', 
+            'Ocurrió un error al asignar', 'error');
+          }
+        }
+      }
     });
    }
 }
