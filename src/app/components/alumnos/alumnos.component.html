@@ -1,2 +1,60 @@
-<h1>{{titulo}}</h1>
-<p>alumnos works!</p>
+<div class="card text-bg-light mb-3">
+    <div class="card-header">{{titulo}}</div>
+    <div class="card-body">
+        <button class="btn btn-primary my-2" routerLink="/alumnos/form">Crear</button>
+        <div class="table-responsive">
+        <table class="table table-hover table-striped" *ngIf="lista?.length || 0 > 0 else elseBlockM">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Foto</th>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Email</th>
+                    <th>Creado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let alumno of lista">
+                    <td>{{alumno.id}}</td>
+                    <td>
+                        <img *ngIf="alumno.fotoHashCode"
+                        [src]="baseEndpoint+'/uploads/img/'+alumno.id+ '?fotoHashCode='+alumno.fotoHashCode" 
+                        class="img-thumbnail rounded" style="width: 64px; cursor: pointer;"/>
+
+                        <img *ngIf="!alumno.fotoHashCode"
+                        [src]="'/assets/images/user_icon.png'" 
+                        class="img-thumbnail rounded" style="width: 64px; cursor: pointer;"/>
+                    </td>
+                    <td>{{alumno.nombre}}</td>
+                    <td>{{alumno.apellido}}</td>
+                    <td>{{alumno.email}}</td>
+                    <td>{{alumno.createAt | date: 'dd/MM/yyyy'}}</td>
+                    <td>
+                        <div class="btn-group">
+                            <button class="btn btn-warning btn-sm" [routerLink]="['/alumnos/form', alumno.id]">Editar</button>
+                            <button class="btn btn-danger btn-sm" (click)="eliminar(alumno)">Eliminar</button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <mat-paginator [length]="totalRegistros"
+              [pageSize]="totalPorPagina"
+              [pageIndex]="paginaActual"
+              [pageSizeOptions]="pageSizeOptions"
+              aria-label="Select page" 
+              (page)="paginar($event)"
+              showFirstLastButtons
+              class="float-left mx-2"
+              >
+        </mat-paginator>
+    </div>
+    <ng-template #elseBlockM>
+        <div class="alert alert-info">
+            No hay alumnos en el sistema
+        </div>
+      </ng-template>
+    </div>
+  </div>
