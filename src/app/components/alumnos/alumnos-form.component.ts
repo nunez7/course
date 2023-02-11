@@ -28,6 +28,11 @@ extends CommonFormComponent<Alumno, AlumnoService> implements OnInit {
     seleccionarFoto(event: any):void{
       this.fotoSeleccionada = event.target.files[0];
       console.info(this.fotoSeleccionada);
+
+      if(this.fotoSeleccionada.type.indexOf('image') <0){
+        Swal.fire('Error al seleccionar la foto', 'El archivo debe ser del tipo imagen', 'error');
+        this.fotoSeleccionada = null;
+      }
     }
 
     public override crear(): void{
