@@ -15,7 +15,7 @@ export class AsignarAlumnosComponent implements OnInit{
 
   curso: Curso;
 
-  alumnosAsignar: Alumno[];
+  alumnosAsignar: Alumno[] = [];
   mostrarColumnas: string[] = ['nombre', 'apellido', 'seleccion'];
 
   seleccion: SelectionModel<Alumno> = new SelectionModel<Alumno>(true, []);
@@ -37,5 +37,17 @@ export class AsignarAlumnosComponent implements OnInit{
       this.alumnoService.filtrarPorNombre(nombre).subscribe(alumnos => 
         this.alumnosAsignar = alumnos);
     }
+   }
+
+   estanTodosSeleccionados(): boolean{
+    const seleccionados = this.seleccion.selected.length;
+    const numAlumnos = this.alumnosAsignar.length;
+    return (seleccionados === numAlumnos);
+   }
+
+   seleccionarTodos(): void{
+    this.estanTodosSeleccionados()? 
+    this.seleccion.clear(): 
+    this.alumnosAsignar.forEach(a => this.seleccion.select(a));
    }
 }
