@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Alumno } from 'src/app/models/alumno';
 import { Curso } from 'src/app/models/curso';
 import { AlumnoService } from 'src/app/services/alumno.service';
 import { CursoService } from 'src/app/services/curso.service';
@@ -12,6 +13,9 @@ import { CursoService } from 'src/app/services/curso.service';
 export class AsignarAlumnosComponent implements OnInit{
 
   curso: Curso;
+
+  alumnosAsignar: Alumno[];
+  mostrarColumnas: string[] = ['Nombre', 'Apellido'];
 
   constructor(private route: ActivatedRoute,
    private cursoService: CursoService,
