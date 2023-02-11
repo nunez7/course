@@ -35,6 +35,15 @@
                     {{error.asignaturaHija}}
                 </div>
             </div>
+            <button (click)="agregarPregunta()" class="btn btn-light btn-lg my-3">Agregar pregunta</button>
+
+            <div class="form-group" *ngFor="let pregunta of model.preguntas">
+                <div class="row mt-2">
+                    <input type="text" name="" class="form-control" value="{{pregunta.texto}}"
+                    (change)="asignarTexto(pregunta, $event)">
+                </div>
+            </div>
+
             <div class="form-group mt-2 d-flex justify-content-end">
                 <button type="button" class="btn btn-primary" 
                 (click)="model.id? editar(): crear()" >{{model.id? 'Editar': 'Crear'}}</button>

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Asignatura } from 'src/app/models/asignatura';
 import { Examen } from 'src/app/models/examen';
+import { Pregunta } from 'src/app/models/pregunta';
 import { ExamenService } from 'src/app/services/examen.service';
 import { CommonFormComponent } from '../commont-form.component';
 
@@ -55,5 +56,14 @@ export class ExamenFormComponent  extends CommonFormComponent<Examen, ExamenServ
 
       return (a1=== null || a2===null || a1===undefined || a2===undefined)
       ? false: a1.id === a2.id;
+    }
+
+    agregarPregunta(): void{
+      this.model.preguntas.push(new Pregunta());
+    }
+
+    asignarTexto(pregunta: Pregunta, event: any):void{
+      pregunta.texto = event.target.value as string;
+      console.log(this.model);
     }
 }
