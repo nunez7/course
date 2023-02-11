@@ -5,6 +5,7 @@ import { Alumno } from 'src/app/models/alumno';
 import { Curso } from 'src/app/models/curso';
 import { AlumnoService } from 'src/app/services/alumno.service';
 import { CursoService } from 'src/app/services/curso.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-asignar-alumnos',
@@ -49,5 +50,15 @@ export class AsignarAlumnosComponent implements OnInit{
     this.estanTodosSeleccionados()? 
     this.seleccion.clear(): 
     this.alumnosAsignar.forEach(a => this.seleccion.select(a));
+   }
+
+   asignar(): void{
+    this.cursoService.asignarAlumnos(this.curso, this.seleccion.selected)
+    .subscribe(c => {
+      Swal.fire('Asignados: ', 
+      'Alumnos asignados con éxito al curso', 'success');
+      this.alumnosAsignar = [];
+      this.seleccion.clear();
+    });
    }
 }

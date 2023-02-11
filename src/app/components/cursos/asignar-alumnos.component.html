@@ -1,9 +1,13 @@
-<div class="container">
-        <mat-form-field class="mx-3 col-12">
+<mat-card>
+    <mat-card-header *ngIf="curso">
+      <mat-card-title>Alumnos del curso {{curso.nombre}}</mat-card-title>
+    </mat-card-header>
+<mat-card-content>
+<div class="container-fluid mt-4">
+        <mat-form-field class=" col-12">
             <input matInput placeholder="Buscar alumnos" (keyup)="filtrar($event.target.value)">
         </mat-form-field>
 </div>
-
 <table mat-table [dataSource]="alumnosAsignar" class="mat-elevation-z8">
 
     <ng-container matColumnDef="seleccion">
@@ -38,3 +42,10 @@
     <tr mat-row *matRowDef="let row; columns: mostrarColumnas;"
     (click)="seleccion.toggle(alumno)"></tr>
   </table>
+  <div class="d-flex justify-content-end">
+    <button mat-raised-button color="primary"class="m-4" 
+    (click)="asignar()"
+    [disabled]="!seleccion.hasValue()">Asignar</button>
+  </div>
+  </mat-card-content>
+</mat-card>
