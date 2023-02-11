@@ -37,10 +37,19 @@
             </div>
             <button (click)="agregarPregunta()" class="btn btn-light btn-lg my-3">Agregar pregunta</button>
 
-            <div class="form-group" *ngFor="let pregunta of model.preguntas">
+            <div class="form-group" *ngFor="let pregunta of model.preguntas; let i = index">
                 <div class="row mt-2">
-                    <input type="text" name="" class="form-control" value="{{pregunta.texto}}"
+                    <div class="col-sm-2">
+                        <label for="">Pregunta {{i+1}}</label>
+                    </div>
+                    <div class="col-sm-6">
+                        <input type="text" name="" class="form-control" value="{{pregunta.texto}}"
                     (change)="asignarTexto(pregunta, $event)">
+                    </div>
+                    <div class="col-sm-1">
+                        <button class="btn btn-danger btn-sm"
+                        (click)="eliminarPregunta(pregunta)">X</button>
+                    </div>
                 </div>
             </div>
 

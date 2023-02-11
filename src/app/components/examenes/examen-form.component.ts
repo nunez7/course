@@ -66,4 +66,23 @@ export class ExamenFormComponent  extends CommonFormComponent<Examen, ExamenServ
       pregunta.texto = event.target.value as string;
       console.log(this.model);
     }
+
+    eliminarPregunta(pregunta: Pregunta): void{
+      this.model.preguntas = this.model.preguntas.filter(p => pregunta.texto!== p.texto);
+    }
+
+    eliminarPreguntasVacias(): void{
+      this.model.preguntas = this.model.preguntas.filter(p => p.texto !=null && p.texto.length > 0);
+
+    }
+
+    public override crear(): void{
+      this.eliminarPreguntasVacias();
+      super.crear();
+    }
+
+    public override editar(): void {
+      this.eliminarPreguntasVacias();
+      super.editar();
+    }
 }
