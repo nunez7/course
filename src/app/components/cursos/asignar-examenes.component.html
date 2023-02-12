@@ -4,7 +4,9 @@
     [formControl]="autocompleteControl"
     [matAutocomplete]="autocomplete"
     >
-    <mat-autocomplete #autocomplete="matAutocomplete">
+    <mat-autocomplete #autocomplete="matAutocomplete"
+    [displayWith]="mostrarNombre"
+    (optionSelected)="seleccionarExamen($event)">
         <mat-option *ngFor="let examen of examenesFiltrados"
         [value]="examen">
             {{examen.nombre}}
