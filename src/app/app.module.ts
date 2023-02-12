@@ -22,6 +22,7 @@ import {MatCardModule} from '@angular/material/card';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { AsignarExamenesComponent } from './components/cursos/asignar-examenes.component';
+import { ResponderExamenComponent } from './components/alumnos/responder-examen.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { AsignarExamenesComponent } from './components/cursos/asignar-examenes.c
     CursoFormComponent,
     ExamenFormComponent,
     AsignarAlumnosComponent,
-    AsignarExamenesComponent
+    AsignarExamenesComponent,
+    ResponderExamenComponent
   ],
   imports: [
     BrowserModule,

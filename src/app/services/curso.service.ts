@@ -38,4 +38,8 @@ export class CursoService extends CommonService<Curso>{
     examen,
     {headers: this.cabeceras});
   }
+
+  obtenerCursoPorAlumnoId(alumno: Alumno): Observable<Curso>{
+    return this.http.get<Curso>(`${this.baseEndpoint}/alumno/${alumno.id}`);
+  }
 }
