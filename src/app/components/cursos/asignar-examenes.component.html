@@ -1,1 +1,14 @@
-<p>asignar-examenes works!</p>
+<div class="container-fluid mt-4">
+<mat-form-field class="col-12">
+    <input matInput placeholder="Añadir examen"
+    [formControl]="autocompleteControl"
+    [matAutocomplete]="autocomplete"
+    >
+    <mat-autocomplete #autocomplete="matAutocomplete">
+        <mat-option *ngFor="let examen of examenesFiltrados"
+        [value]="examen">
+            {{examen.nombre}}
+        </mat-option>
+    </mat-autocomplete>
+</mat-form-field>
+</div>

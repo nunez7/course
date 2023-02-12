@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Curso } from 'src/app/models/curso';
+import { Examen } from 'src/app/models/examen';
 import { CursoService } from 'src/app/services/curso.service';
 import { ExamenService } from 'src/app/services/examen.service';
 
@@ -11,6 +13,8 @@ import { ExamenService } from 'src/app/services/examen.service';
 export class AsignarExamenesComponent implements OnInit{
 
   curso: Curso;
+  autocompleteControl = new FormControl();
+  examenesFiltrados: Examen[] = [];
 
   constructor(private route: ActivatedRoute,
     private router: Router,
@@ -23,5 +27,6 @@ export class AsignarExamenesComponent implements OnInit{
           this.cursoService.ver(id).subscribe(c => this.curso = c);
         });
     }
+    
 
 }
