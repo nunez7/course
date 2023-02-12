@@ -1,5 +1,7 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { Alumno } from 'src/app/models/alumno';
 import { Curso } from 'src/app/models/curso';
@@ -23,6 +25,10 @@ export class AsignarAlumnosComponent implements OnInit {
 
   seleccion: SelectionModel<Alumno> = new SelectionModel<Alumno>(true, []);
 
+  datasource: MatTableDataSource<Alumno>;
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+  pageSizeOptions = [3, 5, 10, 50];
+
   constructor(private route: ActivatedRoute,
     private cursoService: CursoService,
     private alumnoService: AlumnoService) { }
@@ -33,8 +39,15 @@ export class AsignarAlumnosComponent implements OnInit {
       this.cursoService.ver(id).subscribe(c => {
         this.curso = c;
         this.alumnos = this.curso.alumnos;
+        this.initPaginador();
       });
     });
+  }
+
+  initPaginador(): void{
+    this.datasource = new MatTableDataSource<Alumno>(this.alumnos);
+    this.datasource.paginator = this.paginator;
+    this.paginator._intl.itemsPerPageLabel = 'Registros por página';
   }
 
   filtrar(nombre: string): void {
@@ -77,6 +90,7 @@ export class AsignarAlumnosComponent implements OnInit {
           Swal.fire('Asignados: ',
             'Alumnos asignados con éxito al curso', 'success');
           this.alumnos = this.alumnos.concat(this.seleccion.selected);
+          this.initPaginador();
           this.alumnosAsignar = [];
           this.seleccion.clear();
         },
@@ -110,6 +124,7 @@ export class AsignarAlumnosComponent implements OnInit {
         this.cursoService.eliminarAlumno(this.curso, alumno)
           .subscribe(curso => {
             this.alumnos = this.alumnos.filter(a => a.id !== alumno.id);
+            this.initPaginador();
             Swal.fire('Eliminado: ', 'Alumno eliminado con éxito del curso', 'success');
           });
       }
