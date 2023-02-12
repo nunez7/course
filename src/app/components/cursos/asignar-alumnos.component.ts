@@ -44,7 +44,7 @@ export class AsignarAlumnosComponent implements OnInit {
     });
   }
 
-  initPaginador(): void{
+  private initPaginador(): void{
     this.datasource = new MatTableDataSource<Alumno>(this.alumnos);
     this.datasource.paginator = this.paginator;
     this.paginator._intl.itemsPerPageLabel = 'Registros por página';
