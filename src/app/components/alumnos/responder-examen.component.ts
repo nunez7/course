@@ -16,6 +16,8 @@ export class ResponderExamenComponent implements OnInit{
   curso: Curso;
   examenes: Examen[] = [];
 
+  mostrarColumnasExamenes = ['id', 'nombre', 'asignaturas', 'preguntas'];
+
   constructor(private route: ActivatedRoute,
     private alumnoService: AlumnoService,
     private cursoService: CursoService){}
