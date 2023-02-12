@@ -18,6 +18,7 @@ export class AsignarExamenesComponent implements OnInit{
   autocompleteControl = new FormControl();
   examenesFiltrados: Examen[] = [];
   examenesAsignar: Examen[] = [];
+  mostrarColumnas: string[] =  ['nombre', 'asignatura'];
 
   constructor(private route: ActivatedRoute,
     private router: Router,
@@ -41,7 +42,7 @@ export class AsignarExamenesComponent implements OnInit{
 
     seleccionarExamen(event: MatAutocompleteSelectedEvent): void{
       const examen = event.option.value as Examen;
-      this.examenesAsignar.push(examen);
+      this.examenesAsignar = this.examenesAsignar.concat(examen);
       //Reset autocomplete
       this.autocompleteControl.setValue('');
       event.option.deselect();
