@@ -21,6 +21,7 @@ export class AsignarExamenesComponent implements OnInit {
   examenesAsignar: Examen[] = [];
   mostrarColumnas: string[] = ['nombre', 'asignatura', 'eliminar'];
   examenes: Examen[] = [];
+  tabIndex = 0;
 
   constructor(private route: ActivatedRoute,
     private router: Router,
@@ -87,6 +88,8 @@ export class AsignarExamenesComponent implements OnInit {
 
       Swal.fire('Asignados:', 'Examenes asignados con exito al curso',
       'success');
+      //Cambiamos de tab (pestaña)
+      this.tabIndex = 2;
     });
   }
 
