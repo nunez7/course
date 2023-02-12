@@ -20,6 +20,7 @@ export class AsignarExamenesComponent implements OnInit {
   examenesFiltrados: Examen[] = [];
   examenesAsignar: Examen[] = [];
   mostrarColumnas: string[] = ['nombre', 'asignatura', 'eliminar'];
+  examenes: Examen[] = [];
 
   constructor(private route: ActivatedRoute,
     private router: Router,
@@ -29,7 +30,10 @@ export class AsignarExamenesComponent implements OnInit {
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       const id = +params.get('id');
-      this.cursoService.ver(id).subscribe(c => this.curso = c);
+      this.cursoService.ver(id).subscribe(c => {
+        this.curso = c;
+        this.examenes = this.curso.examenes;
+      });
     });
     this.autocompleteControl.valueChanges.pipe(
       map(valor => typeof valor === 'string' ? valor : valor.nombre),
@@ -60,7 +64,7 @@ export class AsignarExamenesComponent implements OnInit {
   private existe(id: number): boolean {
     let existe = false;
 
-    this.examenesAsignar.concat(this.curso.examenes)
+    this.examenesAsignar.concat(this.examenes)
       .forEach(e => {
         if (id = e.id) {
           existe = true;
@@ -74,4 +78,16 @@ export class AsignarExamenesComponent implements OnInit {
       e => examen.id !== e.id
     )
   }
+
+  asignar(): void{
+    this.cursoService.asignarExamenes(this.curso, this.examenesAsignar)
+    .subscribe(curso => {
+      this.examenes = this.examenes.concat(this.examenesAsignar);
+      this.examenesAsignar = [];
+
+      Swal.fire('Asignados:', 'Examenes asignados con exito al curso',
+      'success');
+    });
+  }
+
 }
