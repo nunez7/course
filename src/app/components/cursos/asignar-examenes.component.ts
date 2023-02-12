@@ -8,6 +8,7 @@ import { ExamenService } from 'src/app/services/examen.service';
 import { map, mergeMap } from 'rxjs/operators';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import Swal from 'sweetalert2';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-asignar-examenes',
@@ -90,6 +91,27 @@ export class AsignarExamenesComponent implements OnInit {
       'success');
       //Cambiamos de tab (pestaña)
       this.tabIndex = 2;
+    });
+  }
+
+  eliminarExamenDelCurso(examen: Examen): void{
+    Swal.fire({
+      title: 'Cuidado:',
+      text: `¿Seguro que desea eliminar el examen ${examen.nombre} ?`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, eliminar!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.cursoService.eliminarExamen(this.curso, examen)
+          .subscribe(curso => {
+            this.examenes = this.examenes.filter(e => e.id !== examen.id);
+            //this.initPaginador();
+            Swal.fire('Eliminado: ', 'Examen eliminado con éxito del curso', 'success');
+          });
+      }
     });
   }
 
