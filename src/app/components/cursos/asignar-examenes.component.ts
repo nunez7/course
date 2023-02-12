@@ -5,47 +5,67 @@ import { Curso } from 'src/app/models/curso';
 import { Examen } from 'src/app/models/examen';
 import { CursoService } from 'src/app/services/curso.service';
 import { ExamenService } from 'src/app/services/examen.service';
-import {map, mergeMap} from 'rxjs/operators';
+import { map, mergeMap } from 'rxjs/operators';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-asignar-examenes',
   templateUrl: './asignar-examenes.component.html'
 })
-export class AsignarExamenesComponent implements OnInit{
+export class AsignarExamenesComponent implements OnInit {
 
   curso: Curso;
   autocompleteControl = new FormControl();
   examenesFiltrados: Examen[] = [];
   examenesAsignar: Examen[] = [];
-  mostrarColumnas: string[] =  ['nombre', 'asignatura'];
+  mostrarColumnas: string[] = ['nombre', 'asignatura'];
 
   constructor(private route: ActivatedRoute,
     private router: Router,
-    private cursoService: CursoService, 
-    private examenService: ExamenService){}
+    private cursoService: CursoService,
+    private examenService: ExamenService) { }
 
-    ngOnInit(): void {
-        this.route.paramMap.subscribe(params =>{
-          const id = +params.get('id');
-          this.cursoService.ver(id).subscribe(c => this.curso = c);
-        });
-        this.autocompleteControl.valueChanges.pipe(
-          map(valor => typeof valor === 'string'? valor: valor.nombre),
-          mergeMap(valor => valor? this.examenService.filtrarPorNombre(valor): [])
-        ).subscribe(examenes => this.examenesFiltrados = examenes);
-    }
-    
-    mostrarNombre(examen?: Examen): string{
-      return examen? examen.nombre: '';
-    }
+  ngOnInit(): void {
+    this.route.paramMap.subscribe(params => {
+      const id = +params.get('id');
+      this.cursoService.ver(id).subscribe(c => this.curso = c);
+    });
+    this.autocompleteControl.valueChanges.pipe(
+      map(valor => typeof valor === 'string' ? valor : valor.nombre),
+      mergeMap(valor => valor ? this.examenService.filtrarPorNombre(valor) : [])
+    ).subscribe(examenes => this.examenesFiltrados = examenes);
+  }
 
-    seleccionarExamen(event: MatAutocompleteSelectedEvent): void{
-      const examen = event.option.value as Examen;
+  mostrarNombre(examen?: Examen): string {
+    return examen ? examen.nombre : '';
+  }
+
+  seleccionarExamen(event: MatAutocompleteSelectedEvent): void {
+    const examen = event.option.value as Examen;
+    if (!this.existe(examen.id)) {
       this.examenesAsignar = this.examenesAsignar.concat(examen);
       //Reset autocomplete
       this.autocompleteControl.setValue('');
       event.option.deselect();
       event.option.focus();
+    }else{
+      Swal.fire('Error:',
+      `El examen ${examen.nombre} ya está asignado al curso`,
+      'error'
+      );
     }
+  }
+
+  private existe(id: number): boolean {
+    let existe = false;
+
+    this.examenesAsignar.concat(this.curso.examenes)
+      .forEach(e => {
+        if (id = e.id) {
+          existe = true;
+        }
+      });
+    return existe;
+  }
 }
