@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
@@ -26,7 +27,8 @@ export class ResponderExamenComponent implements OnInit{
 
   constructor(private route: ActivatedRoute,
     private alumnoService: AlumnoService,
-    private cursoService: CursoService){}
+    private cursoService: CursoService,
+    public dialog: MatDialog){}
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params =>{
@@ -45,6 +47,15 @@ export class ResponderExamenComponent implements OnInit{
     });
   }
 
-
+  responderExamen(examen: Examen): void{
+    const modalRef = this.dialog.open(ResponderExamenComponent, {
+      width: '750px',
+      data: {curso: this.curso, alumno: this.alumno, examen: examen}
+    });
+    modalRef.afterClosed().subscribe(respuestas => {
+      console.log('Modal responder ha sido enviado');
+      console.log(respuestas);
+    });
+  }
 
 }

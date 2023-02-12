@@ -41,6 +41,7 @@
                 <th mat-header-cell *matHeaderCellDef> Responder </th>
                 <td mat-cell *matCellDef="let examen">
                     <button mat-stroked-button color="primary" [disabled]="!examen.respondido"
+                    (click)="responderExamen(examen)"
                     >Ver
                 </button>
                 </td>
