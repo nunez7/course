@@ -28,7 +28,7 @@ export class AsignarExamenesComponent implements OnInit {
   //Usados para paginar la table
   pageSizeOptions = [3, 5, 10, 50];
   datasource: MatTableDataSource<Examen>;
-  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   constructor(private route: ActivatedRoute,
     private router: Router,
@@ -50,7 +50,7 @@ export class AsignarExamenesComponent implements OnInit {
     ).subscribe(examenes => this.examenesFiltrados = examenes);
   }
 
-  iniciarPaginador(){
+  private iniciarPaginador() {
     this.datasource = new MatTableDataSource<Examen>(this.examenes);
     this.datasource.paginator = this.paginator;
     this.paginator._intl.itemsPerPageLabel = 'Registros por pagina';
@@ -64,16 +64,16 @@ export class AsignarExamenesComponent implements OnInit {
     const examen = event.option.value as Examen;
     if (!this.existe(examen.id)) {
       this.examenesAsignar = this.examenesAsignar.concat(examen);
-      //Reset autocomplete
-      this.autocompleteControl.setValue('');
-      event.option.deselect();
-      event.option.focus();
-    }else{
+    } else {
       Swal.fire('Error:',
-      `El examen ${examen.nombre} ya está asignado al curso`,
-      'error'
+        `El examen ${examen.nombre} ya está asignado al curso`,
+        'error'
       );
     }
+    //Reset autocomplete
+    this.autocompleteControl.setValue('');
+    event.option.deselect();
+    event.option.focus();
   }
 
   private existe(id: number): boolean {
@@ -88,27 +88,27 @@ export class AsignarExamenesComponent implements OnInit {
     return existe;
   }
 
-  eliminaDelAsignar(examen: Examen):void{
+  eliminaDelAsignar(examen: Examen): void {
     this.examenesAsignar = this.examenesAsignar.filter(
       e => examen.id !== e.id
     )
   }
 
-  asignar(): void{
+  asignar(): void {
     this.cursoService.asignarExamenes(this.curso, this.examenesAsignar)
-    .subscribe(curso => {
-      this.examenes = this.examenes.concat(this.examenesAsignar);
-      this.iniciarPaginador();
-      this.examenesAsignar = [];
+      .subscribe(curso => {
+        this.examenes = this.examenes.concat(this.examenesAsignar);
+        this.iniciarPaginador();
+        this.examenesAsignar = [];
 
-      Swal.fire('Asignados:', 'Examenes asignados con exito al curso',
-      'success');
-      //Cambiamos de tab (pestaña)
-      this.tabIndex = 2;
-    });
+        Swal.fire('Asignados:', 'Examenes asignados con exito al curso',
+          'success');
+        //Cambiamos de tab (pestaña)
+        this.tabIndex = 2;
+      });
   }
 
-  eliminarExamenDelCurso(examen: Examen): void{
+  eliminarExamenDelCurso(examen: Examen): void {
     Swal.fire({
       title: 'Cuidado:',
       text: `¿Seguro que desea eliminar el examen ${examen.nombre} ?`,
