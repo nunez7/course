@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Curso } from 'src/app/models/curso';
@@ -9,6 +9,8 @@ import { map, mergeMap } from 'rxjs/operators';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import Swal from 'sweetalert2';
 import { Observable } from 'rxjs';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-asignar-examenes',
@@ -23,6 +25,10 @@ export class AsignarExamenesComponent implements OnInit {
   mostrarColumnas: string[] = ['nombre', 'asignatura', 'eliminar'];
   examenes: Examen[] = [];
   tabIndex = 0;
+  //Usados para paginar la table
+  pageSizeOptions = [3, 5, 10, 50];
+  datasource: MatTableDataSource<Examen>;
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
   constructor(private route: ActivatedRoute,
     private router: Router,
@@ -35,12 +41,19 @@ export class AsignarExamenesComponent implements OnInit {
       this.cursoService.ver(id).subscribe(c => {
         this.curso = c;
         this.examenes = this.curso.examenes;
+        this.iniciarPaginador();
       });
     });
     this.autocompleteControl.valueChanges.pipe(
       map(valor => typeof valor === 'string' ? valor : valor.nombre),
       mergeMap(valor => valor ? this.examenService.filtrarPorNombre(valor) : [])
     ).subscribe(examenes => this.examenesFiltrados = examenes);
+  }
+
+  iniciarPaginador(){
+    this.datasource = new MatTableDataSource<Examen>(this.examenes);
+    this.datasource.paginator = this.paginator;
+    this.paginator._intl.itemsPerPageLabel = 'Registros por pagina';
   }
 
   mostrarNombre(examen?: Examen): string {
@@ -85,6 +98,7 @@ export class AsignarExamenesComponent implements OnInit {
     this.cursoService.asignarExamenes(this.curso, this.examenesAsignar)
     .subscribe(curso => {
       this.examenes = this.examenes.concat(this.examenesAsignar);
+      this.iniciarPaginador();
       this.examenesAsignar = [];
 
       Swal.fire('Asignados:', 'Examenes asignados con exito al curso',
@@ -108,7 +122,7 @@ export class AsignarExamenesComponent implements OnInit {
         this.cursoService.eliminarExamen(this.curso, examen)
           .subscribe(curso => {
             this.examenes = this.examenes.filter(e => e.id !== examen.id);
-            //this.initPaginador();
+            this.iniciarPaginador();
             Swal.fire('Eliminado: ', 'Examen eliminado con éxito del curso', 'success');
           });
       }
